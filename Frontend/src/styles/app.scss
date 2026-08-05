@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+// Global colors and fonts for the app.
+$Neutral_900: hsl(243, 96%, 9%);
+$Neutral_800: hsl(243, 27%, 20%);
+$Neutral_700: hsl(243, 23%, 24%);
+$Neutral_600: hsl(243, 23%, 30%);
+$Neutral_300: hsl(240, 6%, 70%);
+$Neutral_200: hsl(250, 6%, 84%);
+$Neutral_0: hsl(0, 0%, 100%);
+$Orange_500: hsl(28, 100%, 52%);
+$Blue_500: hsl(233, 67%, 56%);
+$Blue_700: hsl(248, 70%, 36%);
+
+@mixin DM_SANS($size, $weight) {
+    font-family: 'DM Sans', sans-serif;
+    font-optical-sizing: auto;
+    font-size: $size;
+    font-weight: $weight;
+    line-height: normal;
+}
+@mixin BRICOLAGE_GROTESQUE($size, $weight, $color) {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-optical-sizing: auto;
+    font-size: $size;
+    font-weight: $weight;
+    line-height: normal;
+    color: $color;
+}
+
+html{
+    body{
+        margin: 0;
+        padding: 0;
+        background-color: white;
+        height: 100%;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+        background-color: $Neutral_900;
+        padding: 2.5dvh 0 2.5dvh 0; //limite superor e inferior.
+
+        #root{
+            .content{
+                // .header FROM header.scss;
+                .Title{
+                    margin: 0 auto;
+                    @include BRICOLAGE_GROTESQUE(65px, bold, white);
+                    padding: 40px;
+                }
+                // .SearchContent FROM Search.scss
+                width: 90%;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;   
+            }
+        }
+    }
+}

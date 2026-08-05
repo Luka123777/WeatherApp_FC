@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+// Global colors and fonts for the app.
+$Neutral_900: hsl(243, 96%, 9%);
+$Neutral_800: hsl(243, 27%, 20%);
+$Neutral_700: hsl(243, 23%, 24%);
+$Neutral_600: hsl(243, 23%, 30%);
+$Neutral_300: hsl(240, 6%, 70%);
+$Neutral_200: hsl(250, 6%, 84%);
+$Neutral_200_light: rgba(213, 212, 217, 0.078);
+$Neutral_0: hsl(0, 0%, 100%);
+$Orange_500: hsl(28, 100%, 52%);
+$Blue_500: hsl(233, 67%, 56%);
+$Blue_700: hsl(248, 70%, 36%);
+
+@mixin DM_SANS($size, $weight, $color) {
+    font-family: 'DM Sans', sans-serif;
+    font-optical-sizing: auto;
+    font-size: $size;
+    font-weight: $weight;
+    line-height: normal;
+    color: $color;
+}
+@mixin BRICOLAGE_GROTESQUE($size, $weight, $color) {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-optical-sizing: auto;
+    font-size: $size;
+    font-weight: $weight;
+    line-height: normal;
+    color: $color;
+}
+
+html{
+    body{
+        #root{
+            .content{ //unico .content de la app
+                .header{
+                    display: flex;
+                    width: 100%;
+                    justify-content: space-between;
+                    
+                    .DropDownWrapper{
+                        height: auto;
+                        display: flex;
+
+                        position: relative; // Para posicionar el dropdown absoluto a este contenedor.
+
+                        .unitsButton{
+                            display: flex;
+                            width: auto;
+                            align-items: center;
+                            justify-content: center;
+                            background-color: $Neutral_800;
+                            border: none;
+                            border-radius: 8px;
+                            gap: 5px;
+                            padding: 0px 12px 0px 12px;
+                            cursor: pointer;
+
+                            img{
+                                width: 15px;
+                                height: 15px;
+                            }
+                            p{
+                                @include DM_SANS(14px, 500, $Neutral_0);
+                                margin: 0 auto;
+                            }
+                        }
+                        .unitsButton-Dropdown{
+                            position: absolute;
+                            top: 100%; // Posiciona el dropdown justo debajo del botón.
+                            right: 0; // Alinea el dropdown a la derecha del botón.
+                            background-color: $Neutral_800;
+                            border-radius: 8px;
+                            margin-top: 8px; // Espacio entre el botón y el dropdown.
+                            padding: 4px;
+                            opacity: 0;
+                            visibility: hidden;
+                            height: 0px;
+                            border: 1px solid rgba(255,255,255,0.1);
+                            width: 150px;
+
+                            ul{
+                                padding: 0;
+                                margin: 0;
+                                text-decoration: none;
+                                list-style: none;
+                                display: flex;
+                                flex-direction: column;
+                                gap: 5px;
+
+                                h4{
+                                    @include DM_SANS(14px, 500, $Neutral_0);
+                                    margin: 0 0 4px 0;
+                                    border: 1px solid rgba(255,255,255,1);
+                                    padding: 6px;
+                                    border-radius: 6px;
+                                    background-color: $Neutral_200_light;
+                                }
+
+                                .temperature{
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 4px;
+                                    border-bottom: 1px solid rgba(255,255,255,0.1);
+
+                                    p{
+                                        @include DM_SANS(12px, 500, $Neutral_0);
+                                        opacity: 0.5;
+                                        margin: 0;
+                                        padding: 0;
+                                        margin-left: 6px;
+                                    }
+
+                                    .temperatureOptions{
+                                        display: flex;
+
+                                        .groupCelcius{
+                                            display: flex;
+                                            justify-content: space-between;
+                                            align-items: center;
+                                            padding: 6px;
+                                            border-radius: 6px;
+                                            @include DM_SANS(14px, 500, $Neutral_0);
+
+                                            &:hover{
+                                                background-color: $Neutral_200_light;
+                                            }
+                                        }
+                                        .groupFahrenheit{
+                                            display: flex;
+                                            justify-content: space-between;
+                                            align-items: center;
+                                            padding: 6px;
+                                            border-radius: 6px;
+                                            @include DM_SANS(14px, 500, $Neutral_0);
+                                            margin-bottom: 4px;
+
+                                            &:hover{
+                                                background-color: $Neutral_200_light;
+                                            }
+                                        }
+                                    }
+                                }
+                                .windSpeed{
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 4px;
+                                    border-bottom: 1px solid rgba(255,255,255,0.1);
+
+                                    p{
+                                        @include DM_SANS(12px, 500, $Neutral_0);
+                                        opacity: 0.5;
+                                        margin: 0;
+                                        padding: 0;
+                                        margin-left: 6px;
+                                    }
+
+                                    .windSpeedOptions{
+                                        display: flex;
+
+                                        .group-kmh{
+                                            display: flex;
+                                            justify-content: space-between;
+                                            align-items: center;
+                                            padding: 6px;
+                                            border-radius: 6px;
+                                            @include DM_SANS(14px, 500, $Neutral_0);
+
+                                            &:hover{
+                                                background-color: $Neutral_200_light;
+                                            }
+                                        }
+                                        .group-mph{
+                                            display: flex;
+                                            justify-content: space-between;
+                                            align-items: center;
+                                            padding: 6px;
+                                            border-radius: 6px;
+                                            @include DM_SANS(14px, 500, $Neutral_0);
+                                            margin-bottom: 4px;
+
+                                            &:hover{
+                                                background-color: $Neutral_200_light;
+                                            }
+                                        }
+                                    }
+                                }
+                                .precipitation{
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 4px;
+
+                                    p{
+                                        @include DM_SANS(12px, 500, $Neutral_0);
+                                        opacity: 0.5;
+                                        margin: 0;
+                                        padding: 0;
+                                        margin-left: 6px;
+                                    }
+
+                                    .precipitationOptions{
+                                        display: flex;
+
+                                        .groupMilimeters{
+                                            display: flex;
+                                            justify-content: space-between;
+                                            align-items: center;
+                                            padding: 6px;
+                                            border-radius: 6px;
+                                            @include DM_SANS(14px, 500, $Neutral_0);
+
+                                            &:hover{
+                                                background-color: $Neutral_200_light;
+                                            }
+                                        }
+                                        .groupInches{
+                                            display: flex;
+                                            justify-content: space-between;
+                                            align-items: center;
+                                            padding: 6px;
+                                            border-radius: 6px;
+                                            @include DM_SANS(14px, 500, $Neutral_0);
+
+                                            &:hover{
+                                                background-color: $Neutral_200_light;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
