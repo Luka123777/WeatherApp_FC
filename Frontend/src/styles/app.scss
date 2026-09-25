@@ -37,21 +37,71 @@ html{
         max-width: 100%;
         overflow-x: hidden;
         background-color: $Neutral_900;
-        padding: 2.5dvh 0 2.5dvh 0; //limite superor e inferior.
+        padding: 2.5dvh 0 2.5dvh 0; //limite superor e inferior del content.
 
         #root{
             .content{
-                // .header FROM header.scss;
-                .Title{
-                    margin: 0 auto;
-                    @include BRICOLAGE_GROTESQUE(65px, bold, white);
-                    padding: 40px;
-                }
-                // .SearchContent FROM Search.scss
                 width: 90%;
                 margin: 0 auto;
                 display: flex;
-                flex-direction: column;   
+                flex-direction: column;
+                
+                // .header FROM header.scss;
+
+                .APIsuccess{
+                    margin: 0 auto;
+
+                    .Title{
+                        margin: 0 auto;
+                        @include BRICOLAGE_GROTESQUE(65px, bold, white);
+                        padding: 40px;
+                    }
+                    // .SearchContent FROM Search.scss
+                }
+                .APIerror{
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                    justify-content: center;
+                    margin-top: 100px;
+                    gap: 25px;
+                    
+                    .ApiErrorImg{
+                        width: 40px;
+                        height: 40px;
+                        margin: 0 auto
+                    } 
+                    h1{
+                        @include BRICOLAGE_GROTESQUE(4vw, 700, white );
+                        margin: 0 auto;
+                        text-align: center;
+                    }
+                    p{
+                        @include BRICOLAGE_GROTESQUE(1.5rem, 400, white );
+                        opacity: 0.7;
+                        width: 45%;
+                        margin: 0 auto;
+                    }
+                    button{
+                        width: 85px;
+                        margin: 0 auto;
+                        @include DM_SANS(1rem, 400 );
+                        color: white;
+                        border: none;
+                        background-color: $Neutral_700;
+                        height: auto;
+                        padding: 10px;
+                        border-radius: 10px;
+                        display: flex;
+                        text-align: center;
+                        justify-content: center;
+                        gap: 8px;
+                        cursor: pointer;
+                        &:hover{
+                            background-color: $Neutral_600;
+                        }
+                    }
+                }
             }
         }
     }

@@ -13,13 +13,13 @@ export function useHeaderDropdown(ref: React.RefObject<HTMLDivElement | null>) {
     const tl = gsap.timeline({ paused: true });
 
     tl.to(ref.current, { 
-      duration: 0.5,
+      duration: 0.1,
       ease: "back.in",
       height: "auto"
     }, 0).to(ref.current, {
       autoAlpha: 1,
-      duration: 0.5,
-    }, 0.5 );
+      duration: 0.1,
+    }, 0.1 );
 
     tl.reversed(true);
 

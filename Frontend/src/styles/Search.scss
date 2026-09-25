@@ -34,106 +34,108 @@ html{
     body{
         #root{
             .content{ //unico .content de la app
-                .SearchCityContent{
-                    display: flex;
-                    flex-direction: column;
+                .APIsuccess{
+                    .SearchCityContent{
+                        display: flex;
+                        flex-direction: column;
 
-                    .formContent{
-                        // border: 1px solid white;
-                        position: relative;
+                        .formContent{
+                            // border: 1px solid white;
+                            position: relative;
 
-                        .searchContent{
-                            margin: 0 auto;
-                            width: 55%;
-                            display: flex;
-                            gap: 15px;
-
-                            .inputContent{
+                            .searchContent{
+                                margin: 0 auto;
+                                width: 55%;
                                 display: flex;
-                                width: 100%;
-                                justify-content: start;
-                                align-items: center;
-                                background-color: rgba(255, 255, 255, 0.1);
-                                padding: 5px;
-                                border-radius: 6px;
-                                flex: 8;
-                                gap: 10px;
-                                padding-left: 15px;
-                                position: relative;
+                                gap: 15px;
 
-                                input{
-                                    @include DM_SANS(15px, 600, white);
-                                    background-color: none;
-                                    background: none;
-                                    // outline: none;
-                                    border: none;
-                                    // flex: 9;
-                                    width: 100%;
-                                    height: 40px;
-                                    outline: none;
-                                }
-
-                                // img{
-                                //     flex: 1;
-                                // }
-
-                                .resultsContent{ 
-                                    position: absolute;
-                                    top: 100%;
-                                    left: 0;
-                                    width: 100%;
+                                .inputContent{
                                     display: flex;
-                                    flex-direction: column;
-                                    gap: 6px;
-                                    box-sizing: border-box;
-                                    z-index: 10;
-                                    margin-top: 10px;
-                                    border-radius: 6px;
-                                    padding: 8px;
+                                    width: 100%;
+                                    justify-content: start;
+                                    align-items: center;
                                     background-color: rgba(255, 255, 255, 0.1);
-                                    opacity: 0;
-                                    visibility: hidden;
+                                    padding: 5px;
+                                    border-radius: 6px;
+                                    flex: 8;
+                                    gap: 10px;
+                                    padding-left: 15px;
+                                    position: relative;
 
-                                    button{
-                                        outline: none;
-                                        border: none;
+                                    input{
+                                        @include DM_SANS(15px, 600, white);
+                                        background-color: none;
                                         background: none;
-                                        @include DM_SANS(12px, 500, white );
-                                        text-align: start;
-                                        border-radius: 6px;
-                                        cursor: pointer;
-                                        padding-left: 8px;
+                                        // outline: none;
+                                        border: none;
+                                        // flex: 9;
+                                        width: 100%;
+                                        height: 40px;
+                                        outline: none;
+                                    }
 
-                                        &:hover{
-                                            background-color: rgba(255, 255, 255, 0.1) ;;
+                                    // img{
+                                    //     flex: 1;
+                                    // }
+
+                                    .resultsContent{ 
+                                        position: absolute;
+                                        top: 100%;
+                                        left: 0;
+                                        width: 100%;
+                                        display: flex;
+                                        flex-direction: column;
+                                        gap: 6px;
+                                        box-sizing: border-box;
+                                        z-index: 1000;
+                                        margin-top: 10px;
+                                        border-radius: 6px;
+                                        padding: 8px;
+                                        background-color: rgba(255, 255, 255, 0.1);
+                                        opacity: 0;
+                                        visibility: hidden;
+
+                                        button{
+                                            outline: none;
+                                            border: none;
+                                            background: none;
+                                            @include DM_SANS(12px, 500, white );
+                                            text-align: start;
+                                            border-radius: 6px;
+                                            cursor: pointer;
+                                            padding-left: 8px;
+
+                                            &:hover{
+                                                background-color: rgba(255, 255, 255, 0.1) ;;
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            .searchButton{
-                                flex: 2;
-                                background-color: $Blue_500;
-                                @include DM_SANS(15px, 500, white);
-                                border: none;
-                                border-radius: 12px;
-                                cursor: pointer;
-                                margin: 2px;
+                                .searchButton{
+                                    flex: 2;
+                                    background-color: $Blue_500;
+                                    @include DM_SANS(15px, 500, white);
+                                    border: none;
+                                    border-radius: 12px;
+                                    cursor: pointer;
+                                    margin: 2px;
 
-                                &:hover{
-                                    background-color: $Blue_700;
-                                }
-                                &:focus{
-                                    outline: $Blue_500 2px solid;
-                                    outline-offset: 2px;
+                                    &:hover{
+                                        background-color: $Blue_700;
+                                    }
+                                    &:focus{
+                                        outline: $Blue_500 2px solid;
+                                        outline-offset: 2px;
+                                    }
                                 }
                             }
                         }
-                    }
-                    .fetchError{
-                        @include DM_SANS(2rem, 500, white );
-                        background: none;
-                        margin: 0 auto;
-                        margin-top: 50px;
+                        .fetchError{
+                            @include DM_SANS(2rem, 500, white );
+                            background: none;
+                            margin: 0 auto;
+                            margin-top: 50px;
+                        }
                     }
                 }
             }

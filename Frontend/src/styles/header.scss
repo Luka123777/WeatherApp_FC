@@ -41,8 +41,8 @@ html{
                     .DropDownWrapper{
                         height: auto;
                         display: flex;
-
                         position: relative; // Para posicionar el dropdown absoluto a este contenedor.
+                        z-index: 1000;
 
                         .unitsButton{
                             display: flex;

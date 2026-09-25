@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import SearchIcon from '../assets/images/icon-search.svg'
 import { useEffect, useRef } from "react";
 import { useResultDropdown } from "../animations/Animations";
@@ -6,20 +6,31 @@ import '../styles/Search.scss';
 
 interface CityInterface {
     ciudad: string,
-    lat: string,
-    lon: string
+    lat: number,
+    lon: number
 };
 
-export function SearchCity() {
+//Variables que vienen de App.tsx.
+interface SearchCityProps {
+    props: {
+        error: string | null;
+        setError: React.Dispatch<React.SetStateAction<string | null>>;
+        setActive: React.Dispatch<React.SetStateAction<boolean>>;
+        lat: number | null;
+        lon: number | null;
+        setLat: React.Dispatch<React.SetStateAction<number | null>>;
+        setLon: React.Dispatch<React.SetStateAction<number | null>>;
+    }
+}
+
+export function SearchCity({props}: SearchCityProps) {
+    const {error, setError, setActive, lat, lon, setLat, setLon } = props;
+
     //Variable para almacenar el valor del input de búsqueda.
     const [resultado, setResultado] = useState<CityInterface[] | null>(null);
     //Variable para almacenar el valor del input de búsqueda.
     const [busqueda, setBusqueda] = useState<string>("");
     //Variable para avisar si hay errores en la búsqueda.
-    const [error, setError] = useState<string | null>(null);
-
-    const [lat, setLat] = useState<string | null>(null);
-    const [lon, setLon] = useState<string | null>(null);
 
     const resultsRef = useRef<HTMLDivElement>(null);
     const timelineRef = useResultDropdown(resultsRef);
@@ -32,11 +43,17 @@ export function SearchCity() {
 
         //Si el input está vacío, se cancela la funcion y se limpia el resultado. 
         if(!busqueda.trim()) {
-            setError(''); 
+            setError(null); 
             setResultado(null);
             tl?.reverse();
             return;
         }
+
+        //Verifica si el server esta activo antes de hacer la busqueda.
+        const serverStatus = await CheckServerStatus();
+        if(!serverStatus){
+            return
+        };
 
         setError(null);
 
@@ -48,6 +65,7 @@ export function SearchCity() {
             if (!response.ok) {
                 throw new Error(data.error || 'Error de busqueda');
             }
+            
             setResultado(data);
             
             if(data && data.length > 0) {
@@ -61,6 +79,7 @@ export function SearchCity() {
             //Si el error es un tipo de Error, se establece el mensaje de error en el estado.
             if (error instanceof Error){
                 setError(error.message);
+                tl?.reverse();
             } else{
                 setError('Error desconocido');
             }
@@ -69,18 +88,40 @@ export function SearchCity() {
         }
     };
     
-    function getLatLon( latitud: string, longitud: string) {
+    function getLatLon( latitud: number, longitud: number) {
         setResultado(null);
         setBusqueda('');
         tl?.reverse();
         setLat(latitud);
         setLon(longitud);
     };
-
     //Ejecuta cada vez que lat y lon cambian de valor y se muestra en consola.
     useEffect(() => {
         console.log(lat, lon)
     }, [lat, lon]);
+
+    //Devuelve una promesa que se resuelve en un booleano indicando
+    //si el servidor está activo o no.
+    async function IsServerActive(): Promise<boolean> {
+        const url = 'http://localhost:3000/api/health';
+
+        try{
+            const response = await fetch(url);
+            return response.ok;
+
+        } catch{
+            return false;
+        }
+    }
+
+    //Maneja la promesa de IsServerActive y actualiza el estado de 
+    //active en App.tsx.
+    async function CheckServerStatus() {
+        const serverStatus = await IsServerActive();
+        setActive(serverStatus);
+
+        return serverStatus;
+    }
     
     return (
         <>
@@ -106,9 +147,11 @@ export function SearchCity() {
                         </button>
                     </div>
                 </form>
-                {/* Pasar esta variable a otros componentes para condicionar
-                si va a salir un error o no. */}
-                {error && <h2 className="fetchError">{error}</h2>}
+                {/* CONDICIONAR RESULTADOS TOMANDO EN CUENTA ERROR Y ACTIVE,
+                PROBABLEMENTE LA MEJOR OPCION SERIA CONDICIONAR EN APP.TSX */}
+                {error && (
+                    <h1 className="fetchError">{error}</h1>
+                )}
             </div>
         </>
     )

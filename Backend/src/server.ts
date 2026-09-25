@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
-// import rateLimit from "express-rate-limit"
-import { get } from "node:http";
+import rateLimit from "express-rate-limit";
+import NodeCache from "@cacheable/node-cache";
 
 //#Middlewares, interfaces and variants.
 const app = express();
@@ -14,13 +14,18 @@ app.use(cors());
 app.use(express.json());
 
 //Rate limitng para evitar el sobre-saturamiento de las peticiones.
-// const limiter = rateLimit({
-//   windowMs: 60*1000,
-//   limit: 5,
-//   standardHeaders: 'draft-8',
-//   legacyHeaders: false,
-//   message: "Too many request"
-// })
+const limiter = rateLimit({
+  windowMs: 60*1000,
+  limit: 5,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+
+  handler: (req, res) => {
+    res.status(429).json({
+      message: "Demasiadas búsquedas. Espera un minuto."
+    });
+  }
+});
 
 //interface para el cache de buscar ciudades.
 interface cityData {
@@ -30,7 +35,9 @@ interface cityData {
 }
 
 //Cache para almacenar respuestas temporalmente y evitar sobresaturacion.
-const cityCache = new Map<string, cityData>();
+const cityCache = new NodeCache<cityData[]>({
+  stdTTL: 300
+})
 
 // Ruta que usa Node Fetch para conectarse a otra API(Pokemon).
 app.get('/api/pokemon-proxy', async (req, res): Promise<void> => {
@@ -73,11 +80,11 @@ app.get('/api/pokemon-proxy', async (req, res): Promise<void> => {
 });
 
 // ruta GET para buscar ciudades.
-app.get('/api/buscar-ciudad', async (req, res): Promise<void> => {
+app.get('/api/buscar-ciudad', limiter, async (req, res): Promise<void> => {
   const USER_AGENT = 'MyWeatherAppByFrontedMentor/1.0 (Kalu0973153604@gmail.com)'
 
   try {
-    //Extraemos el query string de la url.
+    //Se extrae el query string de la url.
     const nombreCiudad = req.query.nombre as string;
 
     //Validación por si el frontend se olvida de enviar la ciudad.
@@ -86,8 +93,17 @@ app.get('/api/buscar-ciudad', async (req, res): Promise<void> => {
       return;
     }
 
+    //Valicacion si se activo el rate limit.
+
     //Validacion si hay response en el cache.
     const key = nombreCiudad.toLowerCase().trim();
+    const cachedResult = cityCache.get(key);
+
+    if(cachedResult){
+      console.log('resultado desde cache')
+      res.json(cachedResult)
+      return;
+    }
 
     const urlNominatim = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(nombreCiudad)}&format=json&limit=3`;
 
@@ -98,9 +114,9 @@ app.get('/api/buscar-ciudad', async (req, res): Promise<void> => {
     });
 
     interface NominatimResult {
-      display_name: string;
-      lat: string;
-      lon: string;
+      display_name: string
+      lat: string
+      lon: string
     }
 
     const data = await response.json() as NominatimResult[];
@@ -117,6 +133,8 @@ app.get('/api/buscar-ciudad', async (req, res): Promise<void> => {
       lon: ciudad.lon
     }));
 
+    cityCache.set(key, nominatim)
+
     res.json(nominatim);
 
   } catch (error) {
@@ -129,3 +147,10 @@ app.get('/api/buscar-ciudad', async (req, res): Promise<void> => {
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
+// Comprobar si el servidor esta corriendo.
+app.get('/api/health', (req, res) =>{
+  res.status(200).json({
+    status: 'ok'
+  })
+})
